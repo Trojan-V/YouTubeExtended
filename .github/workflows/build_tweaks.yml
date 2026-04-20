@@ -1,0 +1,55 @@
+name: Build Tweaks
+
+on:
+  workflow_call:
+    inputs:
+      tweak_version:
+        description: 'The version of the tweak to build (leave empty to build from source)'
+        default: ''
+        type: string
+        required: false
+
+jobs:
+  build_tweaks:
+    name: Build Tweaks
+    runs-on: macos-latest
+
+    steps:
+        # =================== DEPENDENCIES ===================
+        # ====================================================
+      - name: Check cache
+        run: |
+          echo upstream_heads=`git ls-remote https://github.com/theos/theos | head -n 1 | cut -f 1`-`git ls-remote https://github.com/theos/sdks | head -n 1 | cut -f 1` >> $GITHUB_ENV
+
+      - name: Use cache
+        id: cache
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/theos
+          key: ${{ runner.os }}-${{ env.upstream_heads }}
+
+      - name: Prepare Theos
+        uses: Randomblock1/theos-action@v1
+        # ====================================================
+        # ====================================================
+
+        
+        # =================== BUILD TWEAKS ===================
+      - name: Checkout source code
+        uses: actions/checkout@v6
+
+      - name: Build YouTube Extended Tweak (from source)
+        if: ${{ inputs.tweak_version == '' }}
+        shell: bash
+        run: |
+          set -e
+          export FINALPACKAGE=1
+          make clean package ROOTLESS=1
+
+      - name: Upload built debs as artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: built-debs
+          path: assets/*.deb
+          if-no-files-found: ignore
+          retention-days: 1
