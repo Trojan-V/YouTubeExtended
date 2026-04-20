@@ -29,7 +29,7 @@ jobs:
       - name: Upload .deb
         uses: actions/upload-artifact@v4
         with:
-          name: tweak-deb-rootless
+          name: build-debs
           path: packages/*.deb
           if-no-files-found: error
           retention-days: 30
