@@ -4,28 +4,27 @@ on:
   workflow_call:
 
 jobs:
-  build_tweaks:
-    name: Build Tweaks
+  build:
+    name: Build YouTubeExtended
     runs-on: macos-latest
 
     steps:
-      - name: Checkout source code
+      - name: Checkout YouTubeExtended source code
         uses: actions/checkout@v4
         
         # =================== DEPENDENCIES ===================
         # ====================================================
-      - name: Check cache
+      - name: Check cached Theos version, or prepare Theos if none is cached or if upstream has changed
         run: |
           echo upstream_heads=`git ls-remote https://github.com/theos/theos | head -n 1 | cut -f 1`-`git ls-remote https://github.com/theos/sdks | head -n 1 | cut -f 1` >> $GITHUB_ENV
 
-      - name: Use cache
-        id: cache
+      - name: Use cache for Theos if available from previous runs with the same upstream heads
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/theos
           key: ${{ runner.os }}-${{ env.upstream_heads }}
 
-      - name: Prepare Theos
+      - name: Prepare Theos, will use cached version if available
         uses: Randomblock1/theos-action@v1
         # ====================================================
         # ====================================================
@@ -39,7 +38,7 @@ jobs:
           export FINALPACKAGE=1
           make clean package ROOTLESS=1
       
-      - name: Upload built debs as artifacts
+      - name: Upload built debs as artifacts in the current workflow run
         uses: actions/upload-artifact@v4
         with:
           name: built-debs
