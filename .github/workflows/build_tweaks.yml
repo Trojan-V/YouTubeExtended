@@ -43,7 +43,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: built-debs
-          path: |
-            *.deb
+          path: packages/*.deb
           if-no-files-found: ignore
           retention-days: 1
