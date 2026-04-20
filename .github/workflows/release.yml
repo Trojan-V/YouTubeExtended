@@ -3,7 +3,7 @@ name: Release built debs
 on:
   push:
     branches:
-      - main
+      - master
 
 permissions:
   contents: read
