@@ -68,8 +68,8 @@ jobs:
         shell: bash
         run: |
           set -e
-          export FINALPACKAGE=1
-          make clean package ROOTLESS=1
+          make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../ytext.deb
 
       - name: Clone YouTubeHeader
         if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc }}
