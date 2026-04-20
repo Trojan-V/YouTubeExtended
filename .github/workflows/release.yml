@@ -11,6 +11,13 @@ permissions:
 jobs:
   build:
     uses: ./.github/workflows/build.yml
+    with:
+      enable_youpip: false
+      enable_ytuhd: false
+      enable_yq: false
+      enable_ryd: false
+      enable_ytabc: false
+      enable_demc: false
 
   release:
     name: Create GitHub Release
