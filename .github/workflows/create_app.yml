@@ -67,12 +67,12 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     with:
-      enable_youpip: ${{ github.event.inputs.enable_youpip }}
-      enable_ytuhd: ${{ github.event.inputs.enable_ytuhd }}
-      enable_yq: ${{ github.event.inputs.enable_yq }}
-      enable_ryd: ${{ github.event.inputs.enable_ryd }}
-      enable_ytabc: ${{ github.event.inputs.enable_ytabc }}
-      enable_demc: ${{ github.event.inputs.enable_demc }}
+      enable_youpip: ${{ inputs.enable_youpip }}
+      enable_ytuhd: ${{ inputs.enable_ytuhd }}
+      enable_yq: ${{ inputs.enable_yq }}
+      enable_ryd: ${{ inputs.enable_ryd }}
+      enable_ytabc: ${{ inputs.enable_ytabc }}
+      enable_demc: ${{ inputs.enable_demc }}
 
   package:
     name: Package IPA
