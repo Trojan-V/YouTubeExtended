@@ -27,7 +27,7 @@ concurrency:
 
 jobs:
   build-tweaks:
-    uses: ./.github/workflows/build_tweaks.yml
+    uses: ./.github/workflows/build.yml
 
   package:
     name: Package IPA
