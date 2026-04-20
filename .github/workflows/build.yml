@@ -69,7 +69,7 @@ jobs:
         run: |
           set -e
           make clean package DEBUG=0 FINALPACKAGE=1
-          mv packages/*.deb ../ytext.deb
+          mv packages/*.deb ./youtubeextended.deb
 
       - name: Clone YouTubeHeader
         if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc }}
@@ -180,16 +180,12 @@ jobs:
           git sparse-checkout set --no-cone OpenYoutubeSafariExtension.appex
           git checkout
           mv *.appex ..
-
-      - name: List built files
-        run: ls -la *.deb *.appex
       
       - name: Upload built debs as artifacts in the current workflow run
         uses: actions/upload-artifact@v4
         with:
           name: built-debs
           path: |
-            packages/*.deb
             *.deb
             *.appex
           if-no-files-found: error
