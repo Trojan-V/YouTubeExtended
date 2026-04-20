@@ -33,7 +33,7 @@ jobs:
       contents: write
 
     steps:
-      - name: Download built debs
+      - name: Download build debs
         uses: actions/download-artifact@v8
         with:
           name: build-debs
@@ -68,8 +68,8 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ytext-${{ github.run_number }}
-          name: YouTubeExtended v${{ github.run_number }} (${{ github.run_number }})
-          files: YouTubeExtended_${{ github.run_number }}.ipa
+          name: YouTubeExtended
+          files: YouTubeExtended.ipa
           draft: true
 
       - name: Output Release URL
