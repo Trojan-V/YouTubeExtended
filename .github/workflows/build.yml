@@ -181,6 +181,9 @@ jobs:
           git sparse-checkout set --no-cone OpenYoutubeSafariExtension.appex
           git checkout
           mv *.appex ..
+
+      - name: List built files
+        run: ls -la *.deb *.appex
       
       - name: Upload built debs as artifacts in the current workflow run
         uses: actions/upload-artifact@v4
