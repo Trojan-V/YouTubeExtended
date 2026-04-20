@@ -36,7 +36,7 @@ jobs:
       - name: Download built debs
         uses: actions/download-artifact@v8
         with:
-          name: built-debs
+          name: build-debs
           path: ${{ github.workspace }}
 
       - name: Hide sensitive inputs
