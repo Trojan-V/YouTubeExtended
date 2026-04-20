@@ -2,12 +2,6 @@ name: Build Tweaks
 
 on:
   workflow_call:
-    inputs:
-      tweak_version:
-        description: 'The version of the tweak to build (leave empty to build from source)'
-        default: ''
-        type: string
-        required: false
 
 jobs:
   build_tweaks:
@@ -39,7 +33,6 @@ jobs:
         
         # =================== BUILD TWEAKS ===================
       - name: Build YouTube Extended Tweak (from source)
-        if: ${{ inputs.tweak_version == '' }}
         shell: bash
         run: |
           set -e
