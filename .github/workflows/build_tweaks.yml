@@ -15,6 +15,9 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      - name: Checkout source code
+        uses: actions/checkout@v6
+        
         # =================== DEPENDENCIES ===================
         # ====================================================
       - name: Check cache
@@ -35,9 +38,6 @@ jobs:
 
         
         # =================== BUILD TWEAKS ===================
-      - name: Checkout source code
-        uses: actions/checkout@v6
-
       - name: Build YouTube Extended Tweak (from source)
         if: ${{ inputs.tweak_version == '' }}
         shell: bash
