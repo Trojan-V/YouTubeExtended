@@ -41,25 +41,25 @@ on:
         type: boolean
 
       enable_ytuhd:
-        description: "Include YouTube tweak"
+        description: "Include YouTubeUHD tweak"
         default: false
         required: true
         type: boolean
 
       enable_yq:
-        description: "Include YouQ tweak"
+        description: "Include YouQuality tweak"
         default: false
         required: true
         type: boolean
 
       enable_ryd:
-        description: "Include RYD tweak"
+        description: "Include Return-YouTube-Dislikes tweak"
         default: false
         required: true
         type: boolean
 
       enable_ytabc:
-        description: "Include YouTubeABCTweak"
+        description: "Include YouTubeABConfig tweak"
         default: false
         required: true
         type: boolean

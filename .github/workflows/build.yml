@@ -33,31 +33,15 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      - name: Setup Theos
+        uses: ./.github/actions/setup-theos
+
       - name: Checkout YouTubeExtended source code
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-        # =================== DEPENDENCIES ===================
-        # ====================================================
-      - name: Compute Theos cache key
-        shell: bash
-        run: |
-          echo "upstream_heads=$(git ls-remote https://github.com/theos/theos HEAD | cut -f1)-$(git ls-remote https://github.com/theos/sdks HEAD | cut -f1)" >> "$GITHUB_ENV"
-
-      - name: Restore Theos cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ github.workspace }}/theos
-          key: theos-${{ runner.os }}-${{ env.upstream_heads }}
-
-      - name: Prepare Theos
-        uses: Randomblock1/theos-action@v1
-        # ====================================================
-        # ====================================================
-
-
-        # =================== BUILD TWEAKS ===================
+        # =================== BUILD TWEAKS ==================
       - name: Build YouTube Extended Tweak (from source)
         shell: bash
         run: |
