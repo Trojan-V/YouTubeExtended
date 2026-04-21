@@ -1,3 +1,4 @@
+name: Create YouTubeExtended App (Manual Workflow)
 # This workflow creates an IPA of YouTube with the selected tweaks included.
 # It is triggered manually via the "Run workflow" button in the Actions tab of GitHub.
 # ======================================================
@@ -5,13 +6,11 @@
 # Suggested websites to upload the decrypted IPA:
 # - https://catbox.moe/
 # ======================================================
-# To run this workflow locally, Docker + act can be used:
+# To run this workflow locally, Docker and act can be used:
 
 # How does this workflow work?
 # 1. The user triggers the workflow manually and provides the required inputs (IPA URL, tweaks to include, etc.).
 # 2. The workflow builds the YouTube
-
-name: Create YouTubeExtended App (Manual Workflow)
 
 on:
   workflow_dispatch:
