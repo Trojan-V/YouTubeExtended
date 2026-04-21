@@ -1,3 +1,12 @@
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+// The attribute forces this function to be called on load.
+__attribute__((constructor))
+static void initialize() {
+    NSLog(@"[YouTubeExtended] dylib loaded");
+}
+
 /* How to Hook with Logos
 Hooks are written with syntax similar to that of an Objective-C @implementation.
 You don't need to #include <substrate.h>, it will be done automatically, as will
@@ -32,11 +41,3 @@ the generation of a class list and an automatic constructor.
 // Always make sure you clean up after yourself; Not doing so could have grave consequences!
 %end
 */
-
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-
-__attribute__((constructor))
-static void yt_smoke_test_ctor() {
-    NSLog(@"[YouTubeExtended] dylib loaded");
-}

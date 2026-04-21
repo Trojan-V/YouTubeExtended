@@ -1,4 +1,4 @@
-name: Release built debs
+name: Release built debs (Automatic Workflow)
 
 on:
   push:

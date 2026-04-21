@@ -1,0 +1,184 @@
+# INPUTS
+# ==================================================================
+# - enable_youpip: boolean (required, default: false) - whether to build YouPiP
+# - enable_ytuhd: boolean (required, default: false) - whether to build YouTubeUHD
+# - enable_yq: boolean (required, default: false) - whether to build YouQuality
+# - enable_ryd: boolean (required, default: false) - whether to build Return-YouTube-Dislikes
+# - enable_ytabc: boolean (required, default: false) - whether to build YouTubeABConfig
+# - enable_demc: boolean (required, default: false) - whether to build DontEatMyContent
+# ==================================================================
+
+# Produces the following debs:
+# ==================================================================
+# - youpip.deb (YouPiP tweak)
+# - ytuhd.deb (YouTubeUHD tweak)
+# - yq.deb (YouQuality tweak)
+# - ryd.deb (Return-YouTube-Dislikes tweak)
+# - ytabc.deb (YouTubeABConfig tweak)
+# - demc.deb (DontEatMyContent tweak)
+# All built debs will be stored in the root directory of the runner.
+# ==================================================================
+
+# OUTPUTS:
+# ==================================================================
+# This workflow provides the artifact "built-external-debs" within the current workflow run.
+# This artifact can be downloaded by invoking the following action:
+# ------------------------------------------------------------------
+# - name: Download built external debs
+#   uses: actions/download-artifact@v4
+#   with:
+#   name: built-external-debs
+#   path: ${{ github.workspace }}
+# ------------------------------------------------------------------
+# ==================================================================
+
+name: Build external debs
+on:
+  workflow_call:
+    inputs:
+      enable_youpip:
+        type: boolean
+        required: true
+        default: false
+
+      enable_ytuhd:
+        type: boolean
+        required: true
+        default: false
+
+      enable_yq:
+        type: boolean
+        required: true
+        default: false
+
+      enable_ryd:
+        type: boolean
+        required: true
+        default: false
+
+      enable_ytabc:
+        type: boolean
+        required: true
+        default: false
+
+      enable_demc:
+        type: boolean
+        required: true
+        default: false
+
+jobs:
+  build-external:
+    name: Build external debs
+    runs-on: macos-latest
+
+    steps:
+      - name: Compute Theos cache key
+        shell: bash
+        run: |
+          echo "upstream_heads=$(git ls-remote https://github.com/theos/theos HEAD | cut -f1)-$(git ls-remote https://github.com/theos/sdks HEAD | cut -f1)" >> "$GITHUB_ENV"
+
+      - name: Restore Theos cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/theos
+          key: theos-${{ runner.os }}-${{ env.upstream_heads }}
+
+      - name: Prepare Theos
+        uses: Randomblock1/theos-action@v1
+
+      # Clone YouTubeHeader, since it's a dependency for all other tweaks.
+      - name: Clone YouTubeHeader
+        run: |
+          if [ -d "$THEOS/include/YouTubeHeader" ]; then
+            cd $THEOS/include/YouTubeHeader && git pull
+          else
+            cd $THEOS/include && git clone --quiet --depth=1 https://github.com/PoomSmart/YouTubeHeader.git
+          fi
+          if [ "${{ inputs.enable_demc }}" = "true" ]; then
+            rm -rf "$THEOS/include/YTHeaders"
+            cp -r "$THEOS/include/YouTubeHeader" "$THEOS/include/YTHeaders"
+          fi
+
+      # Clone PSHeader, since it's a dependency for all other tweaks.
+      - name: Clone PSHeader
+        run: |
+          if [ -d "$THEOS/include/PSHeader" ]; then
+            cd $THEOS/include/PSHeader && git pull
+          else
+            cd $THEOS/include && git clone --quiet --depth=1 https://github.com/PoomSmart/PSHeader.git
+          fi
+
+      # Clone and build external tweaks if they've been enabled by the caller workflow.
+      - name: Clone and Build YouPiP
+        if: ${{ inputs.enable_youpip }}
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouPiP.git
+          cd YouPiP && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../youpip.deb
+
+      - name: Clone and Build YTUHD
+        if: ${{ inputs.enable_ytuhd }}
+        run: |
+          git clone --quiet --depth=1 https://github.com/Tonwalter888/YTUHD.git
+          cd YTUHD && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../ytuhd.deb
+
+      - name: Clone and Build Return-YouTube-Dislikes
+        if: ${{ inputs.enable_ryd }}
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/Return-YouTube-Dislikes.git
+          cd Return-YouTube-Dislikes && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../ryd.deb
+
+      - name: Clone and Build YTABConfig
+        if: ${{ inputs.enable_ytabc }}
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YTABConfig.git
+          cd YTABConfig && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../ytabc.deb
+
+      - name: Clone and Build YouGroupSettings
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouGroupSettings.git
+          cd YouGroupSettings && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../ygs.deb
+
+      - name: Clone and Build YouQuality
+        if: ${{ inputs.enable_yq }}
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouQuality.git
+          cd YouQuality && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../yq.deb
+
+      - name: Clone and Build DontEatMyContent
+        if: ${{ inputs.enable_demc }}
+        run: |
+          git clone --quiet --depth=1 https://github.com/therealFoxster/DontEatMyContent.git
+          cd DontEatMyContent && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../demc.deb
+
+      # Dependency
+      - name: Clone and Build YTVideoOverlay
+        if: ${{ inputs.enable_yq || inputs.enable_youpip || inputs.enable_ytuhd }}
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YTVideoOverlay.git
+          cd YTVideoOverlay && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../ytvo.deb
+
+      - name: Clone Open in YouTube (Safari extension)
+        run: |
+          git clone --quiet -n --depth=1 --filter=tree:0 https://github.com/BillyCurtis/OpenYouTubeSafariExtension
+          cd OpenYoutubeSafariExtension
+          git sparse-checkout set --no-cone OpenYoutubeSafariExtension.appex
+          git checkout
+          mv *.appex ..
+
+      - name: Upload built external debs
+        uses: actions/upload-artifact@v4
+        with:
+          name: built-external-debs
+          path: |
+            *.deb
+            *.appex
+          if-no-files-found: error
+          retention-days: 1

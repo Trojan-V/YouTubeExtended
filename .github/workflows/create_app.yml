@@ -1,4 +1,17 @@
-name: Create YouTubeExtended app
+# This workflow creates an IPA of YouTube with the selected tweaks included.
+# It is triggered manually via the "Run workflow" button in the Actions tab of GitHub.
+# ======================================================
+# Note: The IPA file must be decrypted and accessible via a direct URL for this workflow to work.
+# Suggested websites to upload the decrypted IPA:
+# - https://catbox.moe/
+# ======================================================
+# To run this workflow locally, Docker + act can be used:
+
+# How does this workflow work?
+# 1. The user triggers the workflow manually and provides the required inputs (IPA URL, tweaks to include, etc.).
+# 2. The workflow builds the YouTube
+
+name: Create YouTubeExtended App (Manual Workflow)
 
 on:
   workflow_dispatch:
@@ -21,12 +34,6 @@ on:
         required: true
         type: string
 
-      tweak_version:
-        description: "Tweak version to include (Optional, must be a released version, e.g. 1.0.0)"
-        default: ""
-        required: false
-        type: string
-
       enable_youpip:
         description: "Include YouPIP tweak"
         default: false
@@ -34,7 +41,7 @@ on:
         type: boolean
 
       enable_ytuhd:
-        description: "Include YouTubeHeader tweak"
+        description: "Include YouTube tweak"
         default: false
         required: true
         type: boolean
@@ -56,9 +63,9 @@ on:
         default: false
         required: true
         type: boolean
-      
+
       enable_demc:
-        description: "Include DarkenEverythingModeCydia tweak"
+        description: "Include DontEatMyContent tweak"
         default: false
         required: true
         type: boolean
@@ -66,6 +73,10 @@ on:
 jobs:
   build:
     uses: ./.github/workflows/build.yml
+
+  build-external:
+    if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc }}
+    uses: ./.github/workflows/build_external.yml
     with:
       enable_youpip: ${{ inputs.enable_youpip }}
       enable_ytuhd: ${{ inputs.enable_ytuhd }}
@@ -77,15 +88,21 @@ jobs:
   package:
     name: Package IPA
     runs-on: macos-latest
-    needs: build
+    needs: [build, build-external]
     permissions:
       contents: write
 
     steps:
-      - name: Download built debs
+      - name: Download built YouTubeExtended deb
         uses: actions/download-artifact@v4
         with:
-          name: built-debs
+          name: youtubeextended
+          path: ${{ github.workspace }}
+
+      - name: Download built external debs
+        uses: actions/download-artifact@v4
+        with:
+          name: built-external-debs
           path: ${{ github.workspace }}
 
       - name: Download and validate decrypted YouTube IPA
@@ -96,12 +113,6 @@ jobs:
             echo "::error::Validation failed: The downloaded file is not a valid IPA. Detected type: $file_type."
             exit 1
           fi
-
-      - name: Download YouTubeExtended (by version)
-        if: ${{ inputs.tweak_version != '' }}
-        run: |
-          deb_url="https://github.com/Trojan-V/YouTubeExtended/releases/download/v${{ inputs.tweak_version }}/com.trojan.youtubeextended_${{ inputs.tweak_version }}_iphoneos-arm64.deb"
-          wget "$deb_url" --no-verbose -O youtubeextended.deb
 
       - name: Install cyan
         run: pipx install --force https://github.com/asdfzxcvbn/pyzule-rw/archive/main.zip
