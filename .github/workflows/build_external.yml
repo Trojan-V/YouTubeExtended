@@ -160,7 +160,7 @@ jobs:
         with:
           name: built-external-debs
           path: |
-            packages/*.deb
-            packages/*.appex
+            *.deb
+            *.appex
           if-no-files-found: error
           retention-days: 1
