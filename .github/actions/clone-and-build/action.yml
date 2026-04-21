@@ -19,4 +19,4 @@ runs:
         git clone --quiet --depth=1 https://github.com/${{ inputs.repo }}.git
         REPO_NAME=$(basename ${{ inputs.repo }})
         cd "$REPO_NAME" && make package DEBUG=0 FINALPACKAGE=1
-        mv packages/*.deb ../packages/${{ inputs.output }}
+        mv packages/*.deb ../${{ inputs.output }}

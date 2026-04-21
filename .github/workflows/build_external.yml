@@ -153,7 +153,7 @@ jobs:
           cd OpenYoutubeSafariExtension
           git sparse-checkout set --no-cone OpenYoutubeSafariExtension.appex
           git checkout
-          mv *.appex ../packages/
+          mv *.appex ../
 
       - name: Upload built external debs
         uses: actions/upload-artifact@v4
