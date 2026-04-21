@@ -72,6 +72,12 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      # Only required to be able to use the Theos composite setup action
+      - name: Checkout YouTubeExtended source code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
       - name: Setup Theos
         uses: ./.github/actions/setup-theos
 

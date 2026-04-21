@@ -3,7 +3,7 @@ name: Release built debs (Automatic Workflow)
 on:
   push:
     branches:
-      - master
+      - main
 
 permissions:
   contents: read
@@ -29,6 +29,8 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Download built debs
         uses: actions/download-artifact@v4

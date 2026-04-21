@@ -33,15 +33,14 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Setup Theos
-        uses: ./.github/actions/setup-theos
-
       - name: Checkout YouTubeExtended source code
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-        # =================== BUILD TWEAKS ==================
+      - name: Setup Theos
+        uses: ./.github/actions/setup-theos
+
       - name: Build YouTube Extended Tweak (from source)
         shell: bash
         run: |
