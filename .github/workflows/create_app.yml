@@ -11,7 +11,7 @@
 # 1. The user triggers the workflow manually and provides the required inputs (IPA URL, tweaks to include, etc.).
 # 2. The workflow builds the YouTube
 
-name: Create YouTubeExtended App (Manual Workflow)
+name: \[USER\] Create YouTubeExtended App
 
 on:
   workflow_dispatch:

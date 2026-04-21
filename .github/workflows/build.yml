@@ -22,7 +22,7 @@
 # ------------------------------------------------------------------
 # ==================================================================
 
-name: Build YouTubeExtended (Reusable Workflow)
+name: \[INTERNAL\] Build Tweak
 
 on:
   workflow_call:

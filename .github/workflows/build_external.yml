@@ -32,7 +32,8 @@
 # ------------------------------------------------------------------
 # ==================================================================
 
-name: Build external debs
+name: \[INTERNAL\] Build External Tweaks
+
 on:
   workflow_call:
     inputs:
