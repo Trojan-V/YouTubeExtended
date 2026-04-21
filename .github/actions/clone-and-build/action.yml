@@ -1,0 +1,22 @@
+# .github/actions/clone-and-build/action.yml
+name: Clone and Build Theos Tweak
+description: Clones a repo and builds a deb package
+
+inputs:
+  repo:
+    description: GitHub repository (owner/name)
+    required: true
+  output:
+    description: Output filename (e.g. youpip.deb)
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Clone and Build
+      shell: bash
+      run: |
+        git clone --quiet --depth=1 https://github.com/${{ inputs.repo }}.git
+        REPO_NAME=$(basename ${{ inputs.repo }})
+        cd "$REPO_NAME" && make package DEBUG=0 FINALPACKAGE=1
+        mv packages/*.deb ../packages/${{ inputs.output }}

@@ -31,6 +31,8 @@ jobs:
   build:
     name: Build YouTubeExtended Tweak
     runs-on: macos-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout YouTubeExtended source code
@@ -43,14 +45,12 @@ jobs:
 
       - name: Build YouTube Extended Tweak (from source)
         shell: bash
-        run: |
-          make clean package DEBUG=0 FINALPACKAGE=1
-          mv packages/*.deb ./youtubeextended.deb
+        run: make package DEBUG=0 FINALPACKAGE=1
 
       - name: Upload YouTubeExtended in the current workflow run
         uses: actions/upload-artifact@v4
         with:
           name: youtubeextended
-          path: youtubeextended.deb
+          path: packages/*.deb
           if-no-files-found: error
           retention-days: 1

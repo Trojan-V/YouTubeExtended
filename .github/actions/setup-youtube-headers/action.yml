@@ -1,0 +1,33 @@
+# .github/actions/setup-yt-headers/action.yml
+name: Setup YouTube Headers
+description: Clones YouTubeHeader and PSHeader into Theos include dir
+
+inputs:
+  enable_demc:
+    description: Whether to also copy YouTubeHeader as YTHeaders
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Clone YouTubeHeader
+      shell: bash
+      run: |
+        if [ -d "$THEOS/include/YouTubeHeader" ]; then
+          cd $THEOS/include/YouTubeHeader && git pull
+        else
+          cd $THEOS/include && git clone --quiet --depth=1 https://github.com/PoomSmart/YouTubeHeader.git
+        fi
+        if [ "${{ inputs.enable_demc }}" = "true" ]; then
+          rm -rf "$THEOS/include/YTHeaders"
+          cp -r "$THEOS/include/YouTubeHeader" "$THEOS/include/YTHeaders"
+        fi
+
+    - name: Clone PSHeader
+      shell: bash
+      run: |
+        if [ -d "$THEOS/include/PSHeader" ]; then
+          cd $THEOS/include/PSHeader && git pull
+        else
+          cd $THEOS/include && git clone --quiet --depth=1 https://github.com/PoomSmart/PSHeader.git
+        fi
