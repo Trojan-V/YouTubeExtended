@@ -32,7 +32,7 @@
 # ------------------------------------------------------------------
 # ==================================================================
 
-name: \[INTERNAL\] Build External Tweaks
+name: (INTERNAL) Build External Tweaks
 
 on:
   workflow_call:
