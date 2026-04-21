@@ -1,0 +1,24 @@
+# .github/actions/download-debs/action.yml
+name: Download built debs
+description: Downloads YouTubeExtended and external debs
+
+inputs:
+  download_external:
+    description: Whether to download external debs
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - name: Download YouTubeExtended deb
+      uses: actions/download-artifact@v4
+      with:
+        name: youtubeextended
+        path: ${{ github.workspace }}
+
+    - name: Download external debs
+      if: ${{ inputs.download_external == 'true' }}
+      uses: actions/download-artifact@v4
+      with:
+        name: built-external-debs
+        path: ${{ github.workspace }}
