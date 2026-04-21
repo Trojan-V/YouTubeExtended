@@ -18,4 +18,3 @@ runs:
 
     - name: Prepare Theos
       uses: Randomblock1/theos-action@v1
-      shell: bash
