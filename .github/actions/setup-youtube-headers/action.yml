@@ -1,7 +1,7 @@
 # This GitHub Action sets up YouTubeHeader and PSHeader for use in Theos projects.
 # It clones the repositories into the Theos include directory,
 # and optionally copies YouTubeHeader to YTHeaders for compatibility with DontEatMyContent
-.
+
 name: Setup YouTube Headers
 description: Clones YouTubeHeader and PSHeader into Theos include dir
 
