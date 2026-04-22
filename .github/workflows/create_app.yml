@@ -83,11 +83,9 @@ jobs:
 
   download_build:
     if: ${{ inputs.tweak_version != '' }}
-    uses: ./.github/actions/download_build
+    uses: ./.github/workflows/download_build.yml
     with:
       tweak_version: ${{ inputs.tweak_version }}
-    permissions:
-      contents: read
 
   build-external:
     if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc }}

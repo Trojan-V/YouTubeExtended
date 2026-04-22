@@ -1,0 +1,33 @@
+name: Download existing build
+
+on:
+  workflow_call:
+    inputs:
+      tweak_version:
+        description: Version to download (e.g. 1.0.0)
+        required: true
+        type: string
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Download deb from GitHub Releases
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download "v${{ inputs.tweak_version }}" \
+            --repo "${{ github.repository }}" \
+            --pattern "*.deb"
+
+      - name: Upload YouTubeExtended in the current workflow run
+        uses: actions/upload-artifact@v4
+        with:
+          name: youtubeextended
+          path: "*.deb"
+          if-no-files-found: error
+          retention-days: 1
