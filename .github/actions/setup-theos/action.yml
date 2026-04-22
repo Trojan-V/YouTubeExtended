@@ -1,4 +1,6 @@
-# .github/actions/setup-theos/action.yml
+# This action sets up Theos for use in GitHub Actions workflows.
+# It uses a cached version of Theos if available, and installs it if not.
+
 name: Setup Theos
 description: Computes cache key, restores cache and installs Theos
 

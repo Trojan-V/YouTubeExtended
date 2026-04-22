@@ -1,3 +1,16 @@
+# OUTPUTS:
+# ===================================================
+# version: The YouTube app version (e.g. 19.45.2)
+# ---------------------------------------------------
+# To use these outputs in the caller workflow, you can reference them as follows:
+# - name: Get YouTube version
+#   id: yt_version
+#   uses: ./.github/actions/get-youtube-version
+
+# - name: Use YouTube version
+#   run: echo "YouTube version is ${{ steps.yt_version.outputs.version }}"
+# ===================================================
+
 name: Get YouTube Version
 description: Reads the CFBundleShortVersionString from a youtube.ipa file
 

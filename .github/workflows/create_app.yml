@@ -1,3 +1,24 @@
+# PREREQUISITES:
+# ==================================================================
+# - The source code must be checked out before the following steps are invoked:
+#   - Download debs
+#   - Prepare IPA
+#   - Get tweak version
+#   - Get YouTube version
+# ------------------------------------------------------------------
+# - Those steps require access to the GitHub Actions:
+# - .github/actions/download-debs
+# - .github/actions/prepare-ipa
+# - .github/actions/get-tweak-version
+# - .github/actions/get-youtube-version
+# ==================================================================
+
+# OUTPUTS:
+# ======================================================
+# The YouTubeExtended IPA file will be uploaded as a draft release in the GitHub repository.
+# ======================================================
+
+
 # This workflow creates an IPA of YouTube with the selected tweaks included.
 # It is triggered manually via the "Run workflow" button in the Actions tab of GitHub.
 # ======================================================
@@ -6,10 +27,6 @@
 # - https://catbox.moe/
 # ======================================================
 # To run this workflow locally, Docker and act can be used:
-
-# How does this workflow work?
-# 1. The user triggers the workflow manually and provides the required inputs (IPA URL, tweaks to include, etc.).
-# 2. The workflow builds the YouTube
 
 name: (USER) Create YouTubeExtended App
 
@@ -38,7 +55,11 @@ on:
         description: "YouTubeExtended tweak version (leave empty to use the latest version)"
         default: ""
         required: false
-        type: string
+        type: choice
+        options:
+          - ""
+          - "0.0.1"
+          - "0.0.2"
 
       enable_youpip:
         description: "Include YouPIP tweak"

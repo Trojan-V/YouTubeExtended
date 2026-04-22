@@ -1,20 +1,35 @@
-# .github/actions/get-tweak-version/action.yml
+# OUTPUTS:
+# ===================================================
+# version: The version string (e.g. 1.0.0)
+# tag: The version as Git tag (e.g. v1.0.0)
+# ---------------------------------------------------
+# To use these outputs in the caller workflow, you can reference them as follows:
+# - name: Get tweak version
+#   id: version
+#   uses: ./.github/actions/get-tweak-version
+
+# - name: Use version
+#   run: |
+#     echo "Version is ${{ steps.version.outputs.version }}"
+#     echo "Tag is ${{ steps.version.outputs.tag }}"
+# ===================================================
+
 name: Get tweak version from control file
 description: Reads the version from the YouTubeExtended control file and exposes it as output
 
 outputs:
   version:
     description: The version string (e.g. 1.0.0)
-    value: ${{ steps.read.outputs.version }}
+    value: ${{ steps.parse.outputs.version }}
   tag:
     description: The version as Git tag (e.g. v1.0.0)
-    value: ${{ steps.read.outputs.tag }}
+    value: ${{ steps.parse.outputs.tag }}
 
 runs:
   using: composite
   steps:
     - name: Parse version
-      id: read  # The ID is required to be able to reference this step in the "outputs" section above.
+      id: parse  # The ID is required to be able to reference this step in the "outputs" section above.
       shell: bash
       run: |
         set -e

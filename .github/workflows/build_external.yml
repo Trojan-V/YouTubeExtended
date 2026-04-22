@@ -1,3 +1,16 @@
+# PREREQUISITES:
+# ==================================================================
+# - The source code must be checked out before the following steps are invoked:
+#   - "Setup Theos"
+#   - "Setup YouTube Headers"
+#   - All "Build" steps
+# ------------------------------------------------------------------
+# - Those steps require access to the GitHub Actions:
+# - .github/actions/setup-theos/action.yml
+# - .github/actions/setup-youtube-headers/action.yml
+# - .github/actions/clone-and-build/action.yml
+# ==================================================================
+
 # INPUTS
 # ==================================================================
 # - enable_youpip: boolean (required, default: false) - whether to build YouPiP
@@ -92,7 +105,7 @@ jobs:
           enable_demc: ${{ inputs.enable_demc }}
 
       # Dependency
-      - name: Clone and Build YTVideoOverlay
+      - name: Build YTVideoOverlay
         if: ${{ inputs.enable_yq || inputs.enable_youpip || inputs.enable_ytuhd }}
         uses: ./.github/actions/clone-and-build
         with:

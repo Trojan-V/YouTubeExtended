@@ -1,4 +1,14 @@
-# .github/actions/prepare-ipa/action.yml
+# INPUTS:
+# ===================================================
+# ipa_url (required): The URL to the decrypted YouTube IPA file. This should be a direct link to the IPA file.
+# ===================================================
+
+# OUTPUTS:
+# ===================================================
+# The decrypted YouTube IPA will be available in the GitHub Actions workspace's root directory.
+# It will be available as "youtube.ipa".
+# ===================================================
+
 name: Prepare IPA
 description: Downloads and validates decrypted IPA
 

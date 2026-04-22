@@ -1,4 +1,16 @@
-# .github/actions/download-debs/action.yml
+# INPUTS:
+# ===================================================
+# download_external: Whether to download external debs (default: "false")
+# ===================================================
+
+# OUTPUTS:
+# ===================================================
+# youtubeextended.deb: Available in the GitHub Action workspace's root directory.
+# ---------------------------------------------------
+# If download_external is set to "true", several external debs will also be available
+# in the GitHub Action workspace's root directory.
+# ===================================================
+
 name: Download built debs
 description: Downloads YouTubeExtended and external debs
 

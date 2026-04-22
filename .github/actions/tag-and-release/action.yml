@@ -1,9 +1,24 @@
+# INPUTS:
+# ===================================================
+# tag: The Git tag to create (e.g. v1.0.0)
+# version: The version string (e.g. 1.0.0)
+# ===================================================
+
+# OUTPUTS:
+# ===================================================
+# The YouTubeExtended deb file will be available as a release in the GitHub repository.
+# ===================================================
+
 name: Tag and Release
 description: Creates and validates the tag and creates a release on GitHub
 
 inputs:
   tag:
     description: The Git tag to create (e.g. v1.0.0)
+    required: true
+    type: string
+  version:
+    description: The version string (e.g. 1.0.0)
     required: true
     type: string
 
@@ -20,18 +35,11 @@ runs:
           exit 1
         fi
 
-    - name: Strip tag prefix
-      id: version
-      shell: bash
-      run: |
-        TAG="${{ inputs.tag }}"
-        echo "value=${TAG#v}" >> $GITHUB_OUTPUT
-
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ inputs.tag }}
-        name: YouTubeExtended ${{ steps.version.outputs.value }}
+        name: YouTubeExtended ${{ inputs.version }}
         files: "*.deb"
         fail_on_unmatched_files: true
         generate_release_notes: true

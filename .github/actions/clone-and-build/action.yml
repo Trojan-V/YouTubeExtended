@@ -1,6 +1,17 @@
-# .github/actions/clone-and-build/action.yml
-name: Clone and Build Theos Tweak
-description: Clones a repo and builds a deb package
+# INPUTS:
+# ===================================================
+# repo: GitHub repository (owner/name), not the full URL
+# output: Output filename (e.g. youpip.deb)
+# ===================================================
+
+# OUTPUTS:
+# ===================================================
+# The built deb package will be available in the root directory of the
+# GitHub Action workspace with the specified output filename.
+# ===================================================
+
+name: Clone and Build
+description: Clones a repo and builds a deb package using the Makefile
 
 inputs:
   repo:

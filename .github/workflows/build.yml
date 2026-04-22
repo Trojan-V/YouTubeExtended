@@ -1,3 +1,9 @@
+# PREREQUISITES:
+# ==================================================================
+# - The source code must be checked out before the step "Setup Theos" is invoked.
+# - That step requires access to the GitHub Action ".github/actions/setup-theos/action.yml".
+# =================================================================
+
 # INPUTS:
 # ==================================================================
 # None
@@ -12,7 +18,7 @@
 # OUTPUTS:
 # ==================================================================
 # This workflow provides the artifact "youtubeextended" within the current workflow run.
-# This artifact can be downloaded by invoking the following action:
+# The artifact can be downloaded by invoking the following action:
 # ------------------------------------------------------------------
 # - name: Download built YouTubeExtended deb
 #   uses: actions/download-artifact@v4

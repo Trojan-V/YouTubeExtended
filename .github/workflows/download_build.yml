@@ -1,3 +1,14 @@
+# INPUTS:
+# ===================================================
+# tweak_version: Version to download (e.g. 1.0.0)
+# ===================================================
+
+# OUTPUTS:
+# ===================================================
+# The YouTubeExtended deb file will be available in the GitHub Actions workspace's root directory.
+# It will be available as "youtubeextended.deb".
+# ===================================================
+
 name: Download existing build
 
 on:
