@@ -9,7 +9,7 @@
 # It will be available as "youtubeextended.deb".
 # ===================================================
 
-name: Download existing build
+name: (INTERNAL) Download Existing Build
 
 on:
   workflow_call:
