@@ -37,7 +37,7 @@ on:
       tweak_version:
         description: "YouTubeExtended tweak version (leave empty to use the latest version)"
         default: ""
-        required: true
+        required: false
         type: string
 
       enable_youpip:
