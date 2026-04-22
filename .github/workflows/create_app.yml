@@ -60,7 +60,7 @@ on:
           - ""
           - "0.0.1"
           - "0.0.2"
-          
+
       enable_youpip:
         description: "Include YouPIP tweak"
         default: false
@@ -166,7 +166,13 @@ jobs:
         run: echo "filename=YouTubeExtended-${{ steps.version.outputs.version }}_${{ steps.yt_version.outputs.version }}.ipa" >> $GITHUB_OUTPUT
 
       - name: Inject tweaks into IPA
-        run: cyan -i youtube.ipa -o ${{ steps.filename.outputs.filename }} -uwef *.deb *.appex -n "${{ github.event.inputs.display_name }}" -b ${{ github.event.inputs.bundle_id }}
+        run: |
+          EXTRA_FILES=("*.deb")
+          if compgen -G "*.appex" > /dev/null; then
+            EXTRA_FILES+=("*.appex")
+          fi
+
+          cyan -i youtube.ipa -o "${{ steps.filename.outputs.filename }}" -uwef "${EXTRA_FILES[@]}" -n "${{ github.event.inputs.display_name }}" -b ${{ github.event.inputs.bundle_id }}
 
       - name: Upload to GitHub Releases
         uses: softprops/action-gh-release@v2
