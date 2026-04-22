@@ -20,11 +20,16 @@ runs:
           exit 1
         fi
 
+    - name: Strip tag prefix
+      id: version
+      shell: bash
+      run: echo "value=${{ inputs.tag }}" | sed 's/^v//' | xargs -I{} echo "value={}" >> $GITHUB_OUTPUT
+
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ inputs.tag }}
-        name: YouTubeExtended ${{ inputs.tag }}
-        files: ${{ github.workspace }}/*.deb
+        name: YouTubeExtended ${{ steps.version.outputs.value }}
+        files: *.deb
         fail_on_unmatched_files: true
         generate_release_notes: true

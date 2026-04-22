@@ -131,13 +131,28 @@ jobs:
       - name: Install cyan
         run: pipx install --force https://github.com/asdfzxcvbn/pyzule-rw/archive/main.zip
 
+        # Version can be accessed as following:
+        # Bare version: steps.version.outputs.version
+        # Version as Git Tag: steps.version.outputs.tag
+      - name: Get tweak version
+        id: version
+        uses: ./.github/actions/get-tweak-version
+
+      - name: Get YouTube version
+        id: yt_version
+        uses: ./.github/actions/get-yt-version
+
+      - name: Generate YouTubeExtended filename
+        id: filename
+        run: echo "filename=YouTubeExtended-${{ steps.version.outputs.version }}_${{ steps.yt_version.outputs.version }}.ipa" >> $GITHUB_OUTPUT
+
       - name: Inject tweaks into IPA
-        run: cyan -i youtube.ipa -o YouTubeExtended.ipa -uwef *.deb *.appex -n "${{ github.event.inputs.display_name }}" -b ${{ github.event.inputs.bundle_id }}
+        run: cyan -i youtube.ipa -o ${{ steps.filename.outputs.filename }} -uwef *.deb *.appex -n "${{ github.event.inputs.display_name }}" -b ${{ github.event.inputs.bundle_id }}
 
       - name: Upload to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
           tag_name: YouTubeExtended-${{ github.run_number }}
-          name: YouTubeExtended
-          files: YouTubeExtended.ipa
+          name: YouTubeExtended ${{ steps.version.outputs.version }} (YouTube ${{steps.yt_version.outputs.version}})
+          files: ${{ steps.filename.outputs.filename }}
           draft: true

@@ -1,0 +1,18 @@
+name: Get YouTube Version
+description: Reads the CFBundleShortVersionString from a youtube.ipa file
+
+outputs:
+  version:
+    description: The YouTube app version (e.g. 19.45.2)
+    value: ${{ steps.read-version.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Read version from IPA
+      id: read-version
+      shell: bash
+      run: |
+        unzip -p youtube.ipa "Payload/*.app/Info.plist" > /tmp/yt_info.plist
+        YT_VERSION=$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" /tmp/yt_info.plist)
+        echo "version=$YT_VERSION" >> $GITHUB_OUTPUT

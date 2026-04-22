@@ -1,7 +1,7 @@
 Package: com.trojan.youtubeextended
 Name: YouTubeExtended
 Depends: mobilesubstrate
-Version: 0.0.3
+Version: 0.0.5
 Architecture: iphoneos-arm
 Description: The ultimate YouTube tweak for iOS devices, made by trojan.
 Maintainer: trojan
