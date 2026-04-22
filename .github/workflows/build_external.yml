@@ -69,14 +69,14 @@ on:
 
 jobs:
   build-external:
-    name: Build external debs
+    name: Build external Tweaks
     runs-on: macos-latest
     permissions:
       contents: read
 
     steps:
-      # Only required to be able to use the Theos composite setup action
-      - name: Checkout YouTubeExtended source code
+      # Only required to be able to use the composite actions in the repository.
+      - name: Checkout source code
         uses: actions/checkout@v4
         with:
           fetch-depth: 1

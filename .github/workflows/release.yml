@@ -1,9 +1,9 @@
-name: Release built debs (Automatic Workflow)
+name: (INTERNAL) Create Release
 
 on:
   push:
     branches:
-      - main
+      - master
 
 permissions:
   contents: read
@@ -11,13 +11,6 @@ permissions:
 jobs:
   build:
     uses: ./.github/workflows/build.yml
-    with:
-      enable_youpip: false
-      enable_ytuhd: false
-      enable_yq: false
-      enable_ryd: false
-      enable_ytabc: false
-      enable_demc: false
 
   release:
     name: Create GitHub Release
@@ -27,52 +20,20 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v4
+      - name: Download YouTubeExtended deb
+        uses: ./.github/actions/download-debs
         with:
-          fetch-depth: 1
+          download_external: false
 
-      - name: Download built debs
-        uses: actions/download-artifact@v4
-        with:
-          name: built-debs
-          path: ${{ github.workspace }}
-
-      - name: Read version from control file
+      # Version can be accessed as following:
+      # Bare version: steps.version.outputs.version
+      # Version as Git Tag: steps.version.outputs.tag
+      - name: Get tweak version
         id: version
-        shell: bash
-        run: |
-          set -e
-          version=$(sed -n 's/^Version:[[:space:]]*//p' control | head -n 1 | tr -d '\r')
-          if [ -z "$version" ]; then
-            echo "::error::Could not read Version from control file."
-            exit 1
-          fi
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+        uses: ./.github/actions/get-tweak-version
 
-      - name: Check if tag already exists
-        shell: bash
-        run: |
-          set -e
-          git fetch --tags
-          if git rev-parse "${{ steps.version.outputs.tag }}" >/dev/null 2>&1; then
-            echo "::error::Tag ${{ steps.version.outputs.tag }} already exists. Aborting release."
-            exit 1
-          fi
-
-      - name: Create tag
-        shell: bash
-        run: |
-          set -e
-          git tag "${{ steps.version.outputs.tag }}"
-          git push origin "${{ steps.version.outputs.tag }}"
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - name: Create release
+        uses: ./.github/actions/tag-and-release
         with:
-          tag_name: ${{ steps.version.outputs.tag }}
-          name: ${{ steps.version.outputs.tag }}
-          files: ${{ github.workspace }}/*.deb
-          fail_on_unmatched_files: true
-          generate_release_notes: true
+          tag: ${{ steps.version.outputs.tag }}
+

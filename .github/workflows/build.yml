@@ -35,7 +35,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout YouTubeExtended source code
+      - name: Checkout source code
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
@@ -43,7 +43,7 @@ jobs:
       - name: Setup Theos
         uses: ./.github/actions/setup-theos
 
-      - name: Build YouTube Extended Tweak (from source)
+      - name: Build YouTubeExtended deb (from source)
         shell: bash
         run: make package DEBUG=0 FINALPACKAGE=1
 

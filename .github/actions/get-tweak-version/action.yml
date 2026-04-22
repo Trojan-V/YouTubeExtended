@@ -1,0 +1,34 @@
+# .github/actions/get-tweak-version/action.yml
+name: Get tweak version from control file
+description: Reads the version from the YouTubeExtended control file and exposes it as output
+
+outputs:
+  version:
+    description: The version string (e.g. 1.0.0)
+    value: ${{ steps.read.outputs.version }}
+  tag:
+    description: The version as Git tag (e.g. v1.0.0)
+    value: ${{ steps.read.outputs.tag }}
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout source code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+      sparse-checkout: control
+      sparse-checkout-cone-mode: false
+
+    - name: Parse version
+      id: read  # The ID is required to be able to reference this step in the "outputs" section above.
+      shell: bash
+      run: |
+        set -e
+        version=$(sed -n 's/^Version:[[:space:]]*//p' control | head -n 1 | tr -d '\r')
+        if [ -z "$version" ]; then
+          echo "::error::Could not read Version from control file."
+          exit 1
+        fi
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+        echo "tag=v$version" >> "$GITHUB_OUTPUT"
