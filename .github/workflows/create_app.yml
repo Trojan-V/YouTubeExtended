@@ -34,6 +34,12 @@ on:
         required: true
         type: string
 
+      tweak_version:
+        description: "YouTubeExtended tweak version (leave empty to use the latest version)"
+        default: ""
+        required: true
+        type: string
+
       enable_youpip:
         description: "Include YouPIP tweak"
         default: false
@@ -72,7 +78,16 @@ on:
 
 jobs:
   build:
+    if: ${{ inputs.tweak_version == '' }}
     uses: ./.github/workflows/build.yml
+
+  download_build:
+    if: ${{ inputs.tweak_version != '' }}
+    uses: ./.github/actions/download_build
+    with:
+      tweak_version: ${{ inputs.tweak_version }}
+    permissions:
+      contents: read
 
   build-external:
     if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc }}
@@ -88,8 +103,8 @@ jobs:
   package:
     name: Package IPA
     runs-on: macos-latest
-    needs: [build, build-external]
-    if: ${{ always() && needs.build.result == 'success' && (needs.build-external.result == 'success' || needs.build-external.result == 'skipped') }}
+    needs: [build, download_build, build-external]
+    if: ${{ always() && (needs.build.result == 'success' || needs.download_build.result == 'success') && (needs.build-external.result == 'success' || needs.build-external.result == 'skipped') }}
     permissions:
       contents: write
 
