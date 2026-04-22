@@ -17,8 +17,8 @@ runs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 1
-      sparse-checkout: control
-      sparse-checkout-cone-mode: false
+        sparse-checkout: control
+        sparse-checkout-cone-mode: false
 
     - name: Parse version
       id: read  # The ID is required to be able to reference this step in the "outputs" section above.
