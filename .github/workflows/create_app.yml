@@ -167,10 +167,10 @@ jobs:
 
       - name: Inject tweaks into IPA
         run: |
-          EXTRA_FILES=("*.deb")
-          if compgen -G "*.appex" > /dev/null; then
-            EXTRA_FILES+=("*.appex")
-          fi
+          EXTRA_FILES=()
+          shopt -s nullglob
+          for f in *.deb *.appex; do EXTRA_FILES+=("$f"); done
+          shopt -u nullglob
 
           cyan -i youtube.ipa -o "${{ steps.filename.outputs.filename }}" -uwef "${EXTRA_FILES[@]}" -n "${{ github.event.inputs.display_name }}" -b ${{ github.event.inputs.bundle_id }}
 
