@@ -20,6 +20,13 @@ jobs:
       contents: write
 
     steps:
+      # Only required to be able to use the composite actions in the repository.
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: .github/actions
+
       - name: Download YouTubeExtended deb
         uses: ./.github/actions/download-debs
         with:
