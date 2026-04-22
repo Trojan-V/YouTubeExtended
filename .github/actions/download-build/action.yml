@@ -15,26 +15,14 @@ runs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        set -e
-        tag="v${{ inputs.tweak_version }}"
-        echo "Downloading release assets for tag $tag..."
-
-        gh release download "$tag" \
+        gh release download "v${{ inputs.tweak_version }}" \
           --repo "${{ github.repository }}" \
-          --pattern "*.deb" \
-          --dir "${{ github.workspace }}"
-
-        deb=$(ls "${{ github.workspace }}"/*.deb 2>/dev/null | head -n 1)
-        if [ -z "$deb" ]; then
-          echo "::error::No .deb file found in release $tag."
-          exit 1
-        fi
-        echo "Downloaded: $deb"
+          --pattern "*.deb"
 
     - name: Upload YouTubeExtended in the current workflow run
       uses: actions/upload-artifact@v4
       with:
         name: youtubeextended
-        path: ${{ github.workspace }}/*.deb
+        path: "*.deb"
         if-no-files-found: error
         retention-days: 1

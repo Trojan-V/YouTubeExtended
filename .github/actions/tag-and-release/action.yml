@@ -20,18 +20,11 @@ runs:
           exit 1
         fi
 
-    - name: Create tag
-      shell: bash
-      run: |
-        set -e
-        git tag "${{ inputs.tag }}"
-        git push origin "${{ inputs.tag }}"
-
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ inputs.tag }}
-        name: ${{ inputs.tag }}
+        name: YouTubeExtended ${{ inputs.tag }}
         files: ${{ github.workspace }}/*.deb
         fail_on_unmatched_files: true
         generate_release_notes: true

@@ -1,3 +1,11 @@
+# ======================================================
+# This workflow is responsible for creating a GitHub Release when a new commit is pushed to the master branch.
+# 1. Runs the build workflow to build the YouTubeExtended deb from source.
+# 2. Downloads the built YouTubeExtended deb as artifact in the current workflow run.
+# 3. Retrieves the version of the built tweak to use it as Git Tag and Release name.
+# 4. Creates a Git Tag and a GitHub Release with the built deb attached as release asset.
+# ======================================================
+
 name: (INTERNAL) Create Release
 
 on:
@@ -25,7 +33,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
-          sparse-checkout: .github/actions
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            .github/actions
+            control
 
       - name: Download YouTubeExtended deb
         uses: ./.github/actions/download-debs
