@@ -138,7 +138,7 @@ jobs:
 
       - name: Get YouTube version
         id: yt_version
-        uses: ./.github/actions/get-yt-version
+        uses: ./.github/actions/get-youtube-version
 
       - name: Generate YouTubeExtended filename
         id: filename
