@@ -14,7 +14,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = YouTubeExtended
 $(TWEAK_NAME)_FRAMEWORKS = UIKit Foundation SystemConfiguration
-$(TWEAK_NAME)_FILES = Tweak.x
+$(TWEAK_NAME)_FILES = YouTubeExtended.x
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/tweak.mk
