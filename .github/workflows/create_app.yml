@@ -26,7 +26,7 @@
 # Suggested websites to upload the decrypted IPA:
 # - https://catbox.moe/
 # ======================================================
-# To run this workflow locally, Docker and act can be used:
+# This workflow can't be run locally with tools like "act" due to macOS runners not being supported by "act".
 
 name: (USER) Create YouTubeExtended App
 
