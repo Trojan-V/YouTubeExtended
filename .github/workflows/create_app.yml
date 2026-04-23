@@ -52,7 +52,7 @@ on:
         type: string
 
       tweak_version:
-        description: "YouTubeExtended tweak version (leave empty to use the latest version)"
+        description: "YouTubeExtended tweak version (leave empty to build from source)"
         default: ""
         required: false
         type: choice
