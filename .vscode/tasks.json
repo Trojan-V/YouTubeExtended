@@ -6,7 +6,7 @@
     {
       "label": "Build Project as .deb",
       "type": "shell",
-      "command": "make package DEBUG=0 FINALPACKAGE=1",
+      "command": "bash -lc 'bash \"${workspaceFolder}/.vscode/scripts/build.sh\"'",
       "options":
       {
         "cwd": "${workspaceFolder}",
@@ -17,6 +17,41 @@
       "group": {
         "kind": "build",
         "isDefault": true
+      }
+    },
+    {
+      "label": "Build external tweaks as .deb",
+      "type": "shell",
+      "command": "bash -lc 'bash \"${workspaceFolder}/.vscode/scripts/build-external.sh\"'",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "executable": "wsl.exe",
+        "args": ["-e", "bash", "-l", "-c"]
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Inject all packages into IPA",
+      "dependsOn": [
+        "Build Project as .deb",
+        "Build external tweaks as .deb"
+      ],
+      "type": "shell",
+      "command": "bash -lc 'bash \"${workspaceFolder}/.vscode/scripts/create-ipa.sh\"'",
+      "options":
+      {
+        "cwd": "${workspaceFolder}",
+        "executable": "wsl.exe",
+        "args": ["-e", "bash", "-l", "-c"]
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
       }
     }
   ]
