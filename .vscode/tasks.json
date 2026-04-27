@@ -53,6 +53,21 @@
         "kind": "build",
         "isDefault": false
       }
+    },
+    {
+      "label": "Upload IPA to Catbox",
+      "type": "shell",
+      "command": "bash -lc 'bash \"${workspaceFolder}/.vscode/scripts/upload-catbox.sh\"'",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "executable": "wsl.exe",
+        "args": ["-e", "bash", "-l", "-c"]
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
     }
   ]
 }

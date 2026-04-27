@@ -213,19 +213,6 @@ jobs:
           files: ${{ steps.filename.outputs.filename }}
           draft: true
 
-      - name: Upload to Catbox
-        if: ${{ inputs.catbox_upload }}
-        id: catbox
-        uses: ./.github/actions/upload-catbox
-        with:
-          file: ${{ steps.filename.outputs.filename }}
-          userhash: ${{ secrets.CATBOX_USERHASH }}   # optional, im Repo als Secret hinterlegen
-
-      - name: Print Catbox URL
-        if: ${{ inputs.catbox_upload }}
-        shell: bash
-        run: echo "📦 IPA available at ${{ steps.catbox.outputs.url }}"
-
       # - name: Update AltStore JSON
       #   if: ${{ inputs.catbox_upload }}
       #   uses: ./.github/actions/update-altstore-json
@@ -233,4 +220,3 @@ jobs:
       #     version: ${{ steps.version.outputs.version }}
       #     yt_version: ${{ steps.yt_version.outputs.version }}
       #     url: ${{ steps.catbox.outputs.url }}
-
