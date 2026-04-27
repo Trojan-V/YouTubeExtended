@@ -34,19 +34,19 @@ on:
   workflow_dispatch:
     inputs:
       ipa_url:
-        description: "URL to the decrypted IPA file"
+        description: "Direct URL to the decrypted YouTube IPA file"
         default: ""
         required: true
         type: string
 
       display_name:
-        description: "App Name (Optional)"
+        description: "App Display Name"
         default: "YouTube"
         required: true
         type: string
 
       bundle_id:
-        description: "BundleID (Optional)"
+        description: "App Bundle Identifier"
         default: "com.google.ios.youtube"
         required: true
         type: string
@@ -96,6 +96,10 @@ on:
         default: false
         required: true
         type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:

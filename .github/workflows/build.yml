@@ -44,6 +44,11 @@ jobs:
       - name: Setup Theos
         uses: ./.github/actions/setup-theos
 
+      - name: Upgrade GNU Make
+        run: |
+          brew install make
+          echo "$(brew --prefix make)/libexec/gnubin" >> $GITHUB_PATH
+
       - name: Build YouTubeExtended deb (from source)
         shell: bash
         run: make package DEBUG=0 FINALPACKAGE=1

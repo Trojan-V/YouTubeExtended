@@ -98,6 +98,11 @@ jobs:
       - name: Setup Theos
         uses: ./.github/actions/setup-theos
 
+      - name: Upgrade GNU Make
+        run: |
+          brew install make
+          echo "$(brew --prefix make)/libexec/gnubin" >> $GITHUB_PATH
+
       # Dependency for all external tweaks
       - name: Setup YouTube Headers
         uses: ./.github/actions/setup-youtube-headers
