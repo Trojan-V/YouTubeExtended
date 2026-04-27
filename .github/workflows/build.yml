@@ -4,11 +4,6 @@
 # - That step requires access to the GitHub Action ".github/actions/setup-theos/action.yml".
 # =================================================================
 
-# INPUTS:
-# ==================================================================
-# None
-# ==================================================================
-
 # Produces the following debs:
 # ==================================================================
 # - youtubeextended.deb (YouTubeExtended tweak)
