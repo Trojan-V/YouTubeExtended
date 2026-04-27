@@ -73,12 +73,6 @@ on:
         required: false
         type: boolean
 
-      catbox_upload:
-        description: "Whether to upload the generated IPA to Catbox"
-        default: false
-        required: false
-        type: boolean
-
       enable_youpip:
         description: "Include YouPIP tweak"
         default: false
@@ -212,11 +206,3 @@ jobs:
           name: YouTubeExtended ${{ steps.version.outputs.version }} (YouTube ${{steps.yt_version.outputs.version}})
           files: ${{ steps.filename.outputs.filename }}
           draft: true
-
-      # - name: Update AltStore JSON
-      #   if: ${{ inputs.catbox_upload }}
-      #   uses: ./.github/actions/update-altstore-json
-      #   with:
-      #     version: ${{ steps.version.outputs.version }}
-      #     yt_version: ${{ steps.yt_version.outputs.version }}
-      #     url: ${{ steps.catbox.outputs.url }}
