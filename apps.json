@@ -1,0 +1,27 @@
+{
+  "name": "YouTubeExtended",
+  "identifier": "com.vincent.youtubeextended.source",
+  "sourceURL": "https://DEIN-USERNAME.github.io/youtubeextended-repo/apps.json",
+  "apps": [
+    {
+      "name": "YouTubeExtended",
+      "bundleIdentifier": "com.google.ios.youtube",
+      "developerName": "Trojan-V",
+      "subtitle": "YouTube with Tweaks",
+      "localizedDescription": "YouTube with YouPiP, YTUHD, YouQuality, YTABConfig, Return YouTube Dislikes and other tweaks.",
+      "iconURL": "https://DEIN-USERNAME.github.io/youtubeextended-repo/icon.png",
+      "tintColor": "FF0000",
+      "versions": [
+        {
+          "version": "1.0.0",
+          "date": "2026-04-27",
+          "localizedDescription": "Initial releasee",
+          "downloadURL": "https://files.catbox.moe/zan1vj.ipa",
+          "size": 0,
+          "minOSVersion": "14.0"
+        }
+      ],
+      "screenshotURLs": []
+    }
+  ]
+}
