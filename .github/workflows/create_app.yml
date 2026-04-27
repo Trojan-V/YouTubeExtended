@@ -28,7 +28,7 @@
 # ======================================================
 # This workflow can't be run locally with tools like "act" due to macOS runners not being supported by "act".
 
-name: (USER) Create YouTubeExtended App
+name: Create YouTubeExtended IPA
 
 on:
   workflow_dispatch:
