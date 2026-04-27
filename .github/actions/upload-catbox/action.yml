@@ -1,0 +1,41 @@
+name: Upload to Catbox
+description: Uploads a file to catbox.moe and returns the download URL
+
+
+inputs:
+  file:
+    description: "Path to the file to upload"
+    required: true
+
+  userhash:
+    description: "Catbox.moe user hash (optional, for account-linked uploads)"
+    required: false
+    default: ""
+
+
+outputs:
+  url:
+    description: "Direct download URL of the uploaded file on catbox.moe"
+    value: ${{ steps.upload.outputs.url }}
+
+
+runs:
+  using: composite
+  steps:
+    - name: Upload file to Catbox
+      id: upload
+      shell: bash
+      run: |
+        RESPONSE=$(curl --fail-with-body \
+          -F "reqtype=fileupload" \
+          -F "userhash=${{ inputs.userhash }}" \
+          -F "fileToUpload=@${{ inputs.file }}" \
+          https://catbox.moe/user/api.php)
+
+        if [[ "$RESPONSE" != https://files.catbox.moe/* ]]; then
+          echo "::error::Catbox upload failed: $RESPONSE"
+          exit 1
+        fi
+
+        echo "url=$RESPONSE" >> $GITHUB_OUTPUT
+        echo "✅ Uploaded to Catbox: $RESPONSE"

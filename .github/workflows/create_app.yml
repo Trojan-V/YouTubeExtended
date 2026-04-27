@@ -61,6 +61,24 @@ on:
           - "0.0.1"
           - "0.0.2"
 
+      create_draft_release:
+        description: "Whether to create a draft release with the generated IPA"
+        default: true
+        required: false
+        type: boolean
+
+      upload_artifact:
+        description: "Whether to upload the generated IPA as a workflow artifact"
+        default: false
+        required: false
+        type: boolean
+
+      catbox_upload:
+        description: "Whether to upload the generated IPA to Catbox"
+        default: false
+        required: false
+        type: boolean
+
       enable_youpip:
         description: "Include YouPIP tweak"
         default: false
@@ -178,10 +196,41 @@ jobs:
 
           cyan -i youtube.ipa -o "${{ steps.filename.outputs.filename }}" -uwef "${EXTRA_FILES[@]}" -n "${{ github.event.inputs.display_name }}" -b ${{ github.event.inputs.bundle_id }}
 
+      - name: Upload Artifact
+        if: ${{ inputs.upload_artifact }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.filename.outputs.filename }}
+          path: ${{ steps.filename.outputs.filename }}
+          if-no-files-found: error
+
       - name: Upload to GitHub Releases
+        if: ${{ inputs.create_draft_release }}
         uses: softprops/action-gh-release@v2
         with:
           tag_name: YouTubeExtended-${{ github.run_number }}
           name: YouTubeExtended ${{ steps.version.outputs.version }} (YouTube ${{steps.yt_version.outputs.version}})
           files: ${{ steps.filename.outputs.filename }}
           draft: true
+
+      - name: Upload to Catbox
+        if: ${{ inputs.catbox_upload }}
+        id: catbox
+        uses: ./.github/actions/upload-catbox
+        with:
+          file: ${{ steps.filename.outputs.filename }}
+          userhash: ${{ secrets.CATBOX_USERHASH }}   # optional, im Repo als Secret hinterlegen
+
+      - name: Print Catbox URL
+        if: ${{ inputs.catbox_upload }}
+        shell: bash
+        run: echo "📦 IPA available at ${{ steps.catbox.outputs.url }}"
+
+      # - name: Update AltStore JSON
+      #   if: ${{ inputs.catbox_upload }}
+      #   uses: ./.github/actions/update-altstore-json
+      #   with:
+      #     version: ${{ steps.version.outputs.version }}
+      #     yt_version: ${{ steps.yt_version.outputs.version }}
+      #     url: ${{ steps.catbox.outputs.url }}
+
