@@ -3,6 +3,7 @@ set -e
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 BUILD_DIR="$(mktemp -d)"
+rm -rf "$PROJECT_ROOT/packages"
 mkdir -p "$PROJECT_ROOT/packages"
 cd "$BUILD_DIR"
 
@@ -56,15 +57,17 @@ build_repo PoomSmart/YTVideoOverlay "$SHARED_DIR"
 
 # YouPiP, YTUHD, YouQuality brauchen ../YTVideoOverlay/ → selbes SHARED_DIR
 build_repo PoomSmart/YouPiP          "$SHARED_DIR" &  PIDS+=($!)
-build_repo Tonwalter888/YTUHD        "$SHARED_DIR" &  PIDS+=($!)
+# build_repo Tonwalter888/YTUHD        "$SHARED_DIR" &  PIDS+=($!)
 build_repo PoomSmart/YouQuality      "$SHARED_DIR" &  PIDS+=($!)
 
 # ── Schritt 2: Unabhängige Repos parallel ─────────────────────
 PIDS=()
-build_repo PoomSmart/Return-YouTube-Dislikes &  PIDS+=($!)
-build_repo PoomSmart/YTABConfig &               PIDS+=($!)
-build_repo PoomSmart/YouGroupSettings &         PIDS+=($!)
-build_repo ZomkaDEV/DontEatMyContent &          PIDS+=($!)
+build_repo PoomSmart/Return-YouTube-Dislikes & PIDS+=($!)
+build_repo PoomSmart/YTABConfig              & PIDS+=($!)
+build_repo PoomSmart/YouGroupSettings        & PIDS+=($!)
+build_repo PoomSmart/YouTube-X               & PIDS+=($!)
+build_repo Balackburn/YTSideload             & PIDS+=($!)
+# build_repo ZomkaDEV/DontEatMyContent &          PIDS+=($!)
 
 # Safari Extension
 (
