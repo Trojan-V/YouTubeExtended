@@ -2,3 +2,5 @@
 packages/
 TODO.md
 *.ipa
+.venv/
+.last-upload-url

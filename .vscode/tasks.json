@@ -36,10 +36,6 @@
     },
     {
       "label": "Inject all packages into IPA",
-      "dependsOn": [
-        "Build Project as .deb",
-        "Build external tweaks as .deb"
-      ],
       "type": "shell",
       "command": "bash -lc 'bash \"${workspaceFolder}/.vscode/scripts/create-ipa.sh\"'",
       "options":
@@ -53,6 +49,62 @@
         "kind": "build",
         "isDefault": false
       }
-    }
+    },
+    {
+      "label": "Upload IPA to GitHub Releases",
+      "type": "shell",
+      "command": "bash -lc 'bash \"${workspaceFolder}/.vscode/scripts/upload-release.sh\"'",
+      "options":
+      {
+        "cwd": "${workspaceFolder}",
+        "executable": "wsl.exe",
+        "args": ["-e", "bash", "-l", "-c"]
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Update AltStore repository",
+      "type": "shell",
+      "command": "bash -lc 'bash \"${workspaceFolder}/.vscode/scripts/update-repo.sh\"'",
+      "options":
+      {
+        "cwd": "${workspaceFolder}",
+        "executable": "wsl.exe",
+        "args": ["-e", "bash", "-l", "-c"]
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
+    {
+      "label": "Create YouTubeExtended IPA",
+      "type": "shell",
+      "dependsOn": [
+        "Build Project as .deb",
+        "Build external tweaks as .deb",
+        "Inject all packages into IPA",
+        "Upload IPA to GitHub Releases",
+        "Update AltStore repository"
+      ],
+      "dependsOrder": "sequence",
+      "command": "echo 'YouTubeExtended IPA has been created!'",
+      "options":
+      {
+        "cwd": "${workspaceFolder}",
+        "executable": "wsl.exe",
+        "args": ["-e", "bash", "-l", "-c"]
+      },
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
+    },
   ]
 }

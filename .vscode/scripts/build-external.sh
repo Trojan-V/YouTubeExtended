@@ -26,7 +26,8 @@ cp -r "$THEOS/include/YouTubeHeader" "$THEOS/include/YTHeaders"
 # ── Build-Funktion (eigenes tmpdir) ───────────────────────────
 build_repo() {
   local REPO="$1"
-  local WORK_DIR="$2"   # optionales Verzeichnis – default: eigenes tmpdir
+  local WORK_DIR="$2"
+  local EXTRA_FLAGS="${3:-}"          # ← neu: optionale Make-Flags
   local REPO_NAME
   REPO_NAME=$(basename "$REPO")
   local OWN_DIR=false
@@ -39,7 +40,7 @@ build_repo() {
   echo "→ Building $REPO_NAME..."
   git clone --quiet --depth=1 "https://github.com/$REPO.git" "$WORK_DIR/$REPO_NAME"
   cd "$WORK_DIR/$REPO_NAME"
-  make package DEBUG=0 FINALPACKAGE=0
+  make package DEBUG=0 FINALPACKAGE=0 $EXTRA_FLAGS    # ← Flag wird übergeben
   mv packages/*.deb "$PROJECT_ROOT/packages/"
   cd "$BUILD_DIR"
 
@@ -66,7 +67,7 @@ build_repo PoomSmart/Return-YouTube-Dislikes & PIDS+=($!)
 build_repo PoomSmart/YTABConfig              & PIDS+=($!)
 build_repo PoomSmart/YouGroupSettings        & PIDS+=($!)
 build_repo PoomSmart/YouTube-X               & PIDS+=($!)
-build_repo Balackburn/YTSideload             & PIDS+=($!)
+build_repo Balackburn/YTSideload "" "ADDITIONAL_OBJCFLAGS=-Wno-misleading-indentation" & PIDS+=($!)
 # build_repo ZomkaDEV/DontEatMyContent &          PIDS+=($!)
 
 # Safari Extension
