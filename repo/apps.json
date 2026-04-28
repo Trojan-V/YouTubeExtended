@@ -19,6 +19,14 @@
           "downloadURL": "https://files.catbox.moe/zan1vj.ipa",
           "size": 131070065,
           "minOSVersion": "14.0"
+        },
+        {
+          "version": "2026.04.28-1040",
+          "date": "2026-04-28",
+          "localizedDescription": "YouTube 2026.04.28-1040 mit Tweaks",
+          "downloadURL": "https://github.com/Trojan-V/YouTubeExtendedReleases/releases/download/v2026.04.28-1040/YouTubeExtended.ipa",
+          "size": 120991550,
+          "minOSVersion": "14.0"
         }
       ],
       "screenshotURLs": []
